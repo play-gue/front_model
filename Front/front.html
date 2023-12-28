@@ -1,0 +1,51 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar Prototype</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    </head>
+    <body class="bg-gray-50 p-8">
+    <div class="container mx-auto">
+        <div class="flex justify-between items-center mb-4">
+        <button id="prevMonth" class="px-4 py-2 bg-blue-500 text-white rounded">이전달</button>
+        <h1 id="currentMonth" class="text-xl font-semibold"></h1>
+        <button id="nextMonth" class="px-4 py-2 bg-blue-500 text-white rounded">다음달</button>
+        </div>
+        <div id="calendar" class="calendar-grid"></div>
+        <div class="mt-4">
+        <!-- 입력 가능한 칸들 -->
+        <div class="flex">
+            <input type="text" id="start1" class="mr-2 p-2 border border-gray-300" placeholder="Start 1">
+            <input type="text" id="end1" class="p-2 border border-gray-300" placeholder="End 1">
+        </div>
+        <div class="flex mt-2">
+            <input type="text" id="start2" class="mr-2 p-2 border border-gray-300" placeholder="Start 2">
+            <input type="text" id="end2" class="p-2 border border-gray-300" placeholder="End 2">
+        </div>
+        <div class="flex mt-2">
+            <input type="text" id="start3" class="mr-2 p-2 border border-gray-300" placeholder="Start 3">
+            <input type="text" id="end3" class="p-2 border border-gray-300" placeholder="End 3">
+        </div>
+        <div class="flex mt-2">
+            <input type="text" id="start4" class="mr-2 p-2 border border-gray-300" placeholder="Start 4">
+            <input type="text" id="end4" class="p-2 border border-gray-300" placeholder="End 4">
+        </div>
+        <div class="flex mt-2">
+            <input type="text" id="start5" class="mr-2 p-2 border border-gray-300" placeholder="Start 5">
+            <input type="text" id="end5" class="p-2 border border-gray-300" placeholder="End 5">
+        </div>
+        <div class="flex mt-2">
+            <input type="text" id="start6" class="mr-2 p-2 border border-gray-300" placeholder="Start 6">
+            <input type="text" id="end6" class="p-2 border border-gray-300" placeholder="End 6">
+        </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/dayjs"></script>
+    <script src="script.js"></script>
+    </body>
+    </html>
+
