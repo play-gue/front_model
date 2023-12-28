@@ -1,0 +1,52 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 중앙 정렬 */
+  }
+  
+  .title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 버튼 높이 조정 */
+    width: 100%; /* 전체 너비 사용 */
+    max-width: 600px; /* 달력 너비에 맞게 최대 너비 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
+  }
+  
+  /* 달력 크기를 조정하고 중앙에 위치하도록 함 */
+  .calendar {
+    width: 100%;
+    max-width: 600px; /* 달력 너비에 맞게 최대 너비 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
+  }
+  
+  /* 입력란과 선택란도 달력 너비에 맞춤 */
+  .inputs {
+    width: 100%;
+    max-width: 600px; /* 달력 너비에 맞게 최대 너비 설정 */
+    margin: 20px auto; /* 위아래 여백과 중앙 정렬 */
+  }
+  
+  .inputs label,
+  .inputs input,
+  .inputs select,
+  .inputs button {
+    width: 100%; /* 부모 컨테이너의 전체 너비 사용 */
+    box-sizing: border-box; /* 패딩과 테두리를 너비에 포함 */
+  }
+  
+  #runButton,
+  #showResult {
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  /* 버튼 높이를 조정하고 스타일링 */
+  button {
+    padding: 10px 15px; /* 버튼의 크기를 조정 */
+    margin: 0; /* 필요한 경우 마진 제거 */
+  }

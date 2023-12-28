@@ -33,7 +33,7 @@ app.post('/sendData', async (req, res) => {
         const data = await runPythonScript(start1, end1, start2, end2, start3, end3, start4, end4, start5, end5, start6, end6);
     
         res.json({ pythonData: data });
-    } catch (error) {
+    } catch (error) {//노드-프론트 에러 처리
         console.error('Python 에러:', error);
         res.status(500).json({ error: `Python 에러: ${error.message}` });
     }
@@ -54,13 +54,11 @@ function runPythonScript(
         resolve(data.toString().trim());
         });
 
-        pythonProcess.stderr.on('data', (data) => {
+        pythonProcess.stderr.on('data', (data) => {//노드-파이썬 에러 처리
         reject(new Error(`Python script execution error: ${data.toString()}`));
         });
     });
 }
-
-
 
 app.listen(port, () => {
     console.log(`서버가 http://localhost:${port}에서 실행 중입니다.`);
