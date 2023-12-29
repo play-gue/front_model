@@ -12,25 +12,24 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'Front')));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Front', 'index.html'));
+    res.sendFile(path.join(__dirname, 'Front', 'front.html'));
 });
 
 app.post('/sendData', async (req, res) => {
     // POST 요청에서 받아온 데이터를 추출합니다.
-    const {
-        start1, end1, 
-        start2, end2,
-        start3, end3,
-        start4, end4,
-        start5, end5,
-        start6, end6
-    } = req.body;
-    
-    // 받아온 데이터를 콘솔에 출력합니다.
-    console.log('Received data:', start1, end1, start2, end2, start3, end3, start4, end4, start5, end5, start6, end6);
+    // const {
+    //     start1, end1, 
+    //     start2, end2,
+    //     start3, end3,
+    //     start4, end4,
+    //     start5, end5,
+    //     start6, end6
+    // } = req.body;
+    const data_all = req.body;
+    console.log('Received data:', data_all);
 
     try {
-        const data = await runPythonScript(start1, end1, start2, end2, start3, end3, start4, end4, start5, end5, start6, end6);
+        const data = await runPythonScript(data_all);
     
         res.json({ pythonData: data });
     } catch (error) {//노드-프론트 에러 처리
@@ -39,23 +38,16 @@ app.post('/sendData', async (req, res) => {
     }
 });
 
-function runPythonScript(
-    start1, end1,
-    start2, end2,
-    start3, end3,
-    start4, end4,
-    start5, end5,
-    start6, end6
-    ){
+function runPythonScript(data_all){
     return new Promise((resolve, reject) => {
     
-        const pythonProcess = spawn('python', ['Get.py', start1, end1, start2, end2, start3, end3, start4, end4, start5, end5, start6, end6]);
+        const pythonProcess = spawn('python', ['GoToML.py', data_all]);
         pythonProcess.stdout.on('data', (data) => {
-        resolve(data.toString().trim());
+            resolve(data.toString().trim());
         });
 
         pythonProcess.stderr.on('data', (data) => {//노드-파이썬 에러 처리
-        reject(new Error(`Python script execution error: ${data.toString()}`));
+        reject(new Error(`Python error: ${data.toString()}`));
         });
     });
 }

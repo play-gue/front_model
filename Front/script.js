@@ -67,12 +67,34 @@ document.addEventListener('DOMContentLoaded', function() {
   // 'RUN' 버튼 클릭 이벤트
   document.getElementById('runButton').addEventListener('click', function() {
     // inputData와 selectModel 값을 가져와서 처리하는 로직을 추가
-    const inputData = document.getElementById('inputData').value;
-    const selectModel = document.getElementById('selectModel').value;
+    // const inputData = document.getElementById('inputData').value;
+    // const selectModel = document.getElementById('selectModel').value;
     
     // 결과를 showResult에 표시
-    const resultArea = document.getElementById('showResult');
-    resultArea.textContent = `입력 데이터: ${inputData}, 선택된 모델: ${selectModel}`;
-    // 실제 애플리케이션에서는 여기에 더 복잡한 데이터 처리와 결과를 표시하는 코드가 추가될 것입니다.
+    document.getElementById('showResult').textContent = '계산 중 입니당';;
+
+    const data = "2023.06.13~2023.06.18, 2023.07.13~2023.07.17, 2023.08.14~2023.08.19, 2023.09.14~2023.09.19, 2023.10.15~2023.10.21, 2023.11.16~2023.11.22, 2023.12.21~2023.12.25";
+    fetch('/sendData',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())  // JSON 형태로 응답 변환
+        .then(data => {
+            if (data.pythonData) {
+                // 받은 데이터를 selectedDateAlert2에 표시
+                document.getElementById('showResult').textContent = `${data.pythonData}`;
+            }
+            if (data.error) {
+                // 에러가 있을 경우 selectedDateAlert2에 에러 표시
+                document.getElementById('showResult').textContent = data.error;
+            }
+        })
+        .catch(error => {
+            console.error('에러 발생:', error);
+        });
+    
   });
 });
