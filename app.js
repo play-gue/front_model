@@ -16,15 +16,6 @@ app.get('/', (req, res) => {
 });
 
 app.post('/sendData', async (req, res) => {
-    // POST 요청에서 받아온 데이터를 추출합니다.
-    // const {
-    //     start1, end1, 
-    //     start2, end2,
-    //     start3, end3,
-    //     start4, end4,
-    //     start5, end5,
-    //     start6, end6
-    // } = req.body;
     const data_all = req.body;
     console.log('Received data:', data_all);
 
