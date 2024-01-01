@@ -50,3 +50,13 @@ body {
     padding: 10px 15px; /* 버튼의 크기를 조정 */
     margin: 0; /* 필요한 경우 마진 제거 */
   }
+
+  /* 클릭한 날짜 표시 */
+  .clicked {
+    background-color: lightblue;
+  }
+
+  /* 두 번째 클릭 시 선택한 범위 표시 */
+  .selected-range {
+    background-color: lightgreen;
+  }

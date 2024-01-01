@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
   // 현재 날짜 설정
   let currentDate = new Date();
-
+  let clickCount = 0;
+  let clickedDates = [];
   function updateCalendarTitle() {
     const calendarTitle = document.getElementById('calendarTitle');
     calendarTitle.textContent = `${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1}월`;
@@ -41,6 +42,48 @@ document.addEventListener('DOMContentLoaded', function() {
           if (j === 0) { // 일요일에 색상 변경
             cell.classList.add('sunday');
           }
+          cell.addEventListener('click', function() {
+            const cells = document.querySelectorAll('.calendar table td');
+            clickCount++;
+  
+            if (clickCount === 1) {
+              cells.forEach(cell => {
+                cell.classList.remove('clicked', 'selected-range');
+              });
+            }
+            
+            clickedDates.push(`${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1}월 ${cell.textContent}일`);
+            
+            // 클릭한 날짜에 클래스 추가
+            cell.classList.add('clicked');
+            
+            if (clickCount === 2) {
+              // 두 번째 클릭 시 기간에 해당하는 셀에 클래스 추가
+              const [startDate, endDate] = clickedDates.map(date => date.split(' ').slice(1, 4).join(' '));
+              
+              console.log('클릭한 날짜:', clickedDates.join(', '));
+              const dataToSend = {
+                clickedDates: clickedDates
+              };
+              
+              fetch('/sendData', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(dataToSend)
+              })
+              .then(response => response.json())
+              .then(responseData => {
+                  // 서버의 응답을 처리하거나 필요에 따라 다른 동작 수행
+                console.log('서버 응답:', responseData);
+                });
+
+                // 초기화
+                clickCount = 0;
+                clickedDates = [];
+              }
+            });
           date++;
         }
       }
@@ -65,29 +108,33 @@ document.addEventListener('DOMContentLoaded', function() {
   renderCalendar();
 
   // 'RUN' 버튼 클릭 이벤트
-  document.getElementById('runButton').addEventListener('click', function() {
-    // const inputData = document.getElementById('inputData').value;
-    // const selectModel = document.getElementById('selectModel').value;
-    
-    document.getElementById('showResult').textContent = '계산 중 입니당';;
+  document.getElementById('runButton').addEventListener('click', async function() {
+    document.getElementById('showResult').textContent = '계산 중 입니당';
 
-    const data = ["2023.06.13~2023.06.18", "2023.07.13~2023.07.17", "2023.08.14~2023.08.19", "2023.09.14~2023.09.19", "2023.10.15~2023.10.21", "2023.11.16~2023.11.22", "2023.12.21~2023.12.25"];
-    fetch('/sendData',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body: JSON.stringify({ data: data }) // 데이터를 객체 형태로 감싸서 전송
-    })
-    .then(response => response.json())
-      .then(responseData => {
-          if (responseData.pythonData) {
-              document.getElementById('showResult').textContent = `${responseData.pythonData}`;
-          }
-          if (responseData.error) {
-              document.getElementById('showResult').textContent = responseData.error;
-          }
-      })
-    
+    try {
+      const response = await fetch('/runPython', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({})  // 데이터가 필요하지 않는 경우 빈 객체 전송
+      });
+  
+      if (!response.ok) {
+          throw new Error(`서버 응답 오류: ${response.statusText}`);
+      }
+  
+      const responseData = await response.json();
+  
+      if (responseData.pythonData) {
+          document.getElementById('showResult').textContent = `${responseData.pythonData}`;
+      }
+      if (responseData.error) {
+          document.getElementById('showResult').textContent = responseData.error;
+      }
+    } catch (error) {
+        console.error('클라이언트 에러:', error);
+        document.getElementById('showResult').textContent = `클라이언트 에러: ${error.message}`;
+    }
   });
 });
